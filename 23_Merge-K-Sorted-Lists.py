@@ -13,29 +13,51 @@ class ListNode:
         self.val = x
         self.next = None
 
+from heapq import heappush, heappop
 class Solution:
     # @param a list of ListNode
     # @return a ListNode
     def mergeKLists(self, lists):
-        temp_lists = []
-        for i in range(len(lists)):
-            if lists[i]:
-                temp_lists.append(lists[i])
-        lists = temp_lists
-        result = ListNode(0)
-        p = result
-        while lists:
-            val = [ lists[i].val for i in range(len(lists)) ]
-            val.sort()
-            min_val = val.index(val[0])
-            while lists[min_val].next and lists[min_val].next.val<val[1]:
-                p.next = lists[min_val]
-                lists[min_val] = lists[min_val].next
+        heap = []
+        for i in lists:
+            p = i
+            while p:
+                heappush(heap, (p.val, p))
                 p = p.next
-            if lists[min_val].next==None:
-                lists.pop(min_val)
+        head = ListNode(-1)
+        p = head
+        while heap:
+            p.next = heappop(heap)[1]
+            p = p.next
         p.next = None
-        return result.next
+        return head.next
+
+
+
+
+
+
+#class Solution:
+#    # @param a list of ListNode
+#    # @return a ListNode
+#    def mergeKLists(self, lists):
+#        lists = [ t for t in lists if t ]
+#        head = ListNode(-1)
+#        p = head
+#        #while not self.emptyLists(lists):
+#        while lists!=[]:
+#            vals = [ t.val for t in lists]
+#            minvalindex = vals.index(sorted(vals)[0])
+#            p.next = lists[minvalindex]
+#            p = p.next
+#            if lists[minvalindex].next:
+#                lists[minvalindex] = lists[minvalindex].next 
+#            else:
+#                lists.pop(minvalindex)
+#        return head.next
+#    def emptyLists(self, lists):
+#        return [ i for i in lists if i ]==[]
+
 
 
 # initialize lists
@@ -59,6 +81,8 @@ for i in range(len(lists)):
     print 
 
 # start test
+#lists = [None, ListNode(0)]
+#lists = [None]
 t = Solution()
 p = t.mergeKLists(lists)
 #p = t.mergeKLists([None, None])

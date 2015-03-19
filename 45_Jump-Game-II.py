@@ -18,22 +18,27 @@ class Solution:
     # @param A, a list of integers
     # @return an integer
     def jump(self, A):
-        if A[0]>=len(A)-1:
-            return 1
-        step = [0]
-        for i,num in enumerate(A[-2::-1]):
-            tstep = 50000
-            for t in range(i-num+1, i+1):
-                if t<=0:
-                    tstep = 1
-                elif step[t]:
-                    tstep = min(tstep, step[t]+1)
-            step.append(tstep)
-        return step[-1]
+        i = 0
+        step = 0
+        while i<len(A)-1:
+            if i+A[i]>=len(A)-1:
+                step += 1
+                break
+            maxdis = i
+            nexti = i
+            for j in range(i+1, i+A[i]+1):
+                if j+A[j]>maxdis:
+                    maxdis = j+A[j]
+                    nexti = j
+            i = nexti
+            step += 1
+        return step
 
 
 
-A = range(25000, 0, -1)
+#A = range(25000, 0, -1)
+#A = [2,3,1,1,4]
+A = [2,1]
 t = Solution()
 print t.jump(A)
 
