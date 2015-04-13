@@ -22,6 +22,16 @@ class Solution:
     def rotateRight(self, head, k):
         if not head or k==0 or not head.next:
             return head
+
+        l = 0
+        tmp = head
+        while tmp:
+            tmp = tmp.next
+            l += 1
+        k = k%l
+        if k==0:
+            return head
+
         dummy = ListNode(0)
         dummy.next = head
         m, n = head, dummy
@@ -43,13 +53,13 @@ class Solution:
 
 head = ListNode(1)
 p = head
-for i in range(3):
+for i in range(1):
     p.next = ListNode(i+2)
     p.next.next = None
     p = p.next
 
 t = Solution()
-tmp = t.rotateRight(head, 4000000)
+tmp = t.rotateRight(head, 3)
 while tmp:
     print tmp.val
     tmp = tmp.next
